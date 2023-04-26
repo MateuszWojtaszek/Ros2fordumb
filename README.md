@@ -176,4 +176,17 @@ To load the ./turtlesim.yaml file generated with ros2 param dump into /turtlesim
 
 ros2 param load /turtlesim ./turtlesim.yaml
 
+  
+  LOAD PARAMS FILE ON START 
+ 
+To start the same node using your saved parameter values, use:
+
+ros2 run <package_name> <executable_name> --ros-args --params-file <file_name>
+
+This is the same command you always use to start turtlesim, with the added flags --ros-args and --params-file, followed by the file you want to load.
+
+Stop your running turtlesim node so you can try reloading it with your saved parameters, using:
+
+ros2 run turtlesim turtlesim_node --ros-args --params-file ./turtlesim.yaml
+
 
