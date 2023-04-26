@@ -132,4 +132,48 @@ ros2 service call <service_name> <service_type> <arguments>
 The <arguments> part is optional. For example, you know that Empty typed services don’t have any arguments:
 
 ros2 service call /clear std_srvs/srv/Empty
+  
+# PARAMS
+  
+  every node has its own params, we can list them using ros2 param list
+  
+  params are specific settings for a node
+  
+  to check a param we can use a getter:
+  
+  ros2 param get <node> <param>
+  
+  ex.: ros2 param get /turtlesim background_g
+  
+To change a parameter’s value at runtime, use the command:
+
+ros2 param set <node_name> <parameter_name> <value>
+  
+  ex: ros2 param set /turtlesim background_r 150
+
+  !!ATENTION!! 
+  setting parameters with the set command will only change them in your current session, not permanently. However, you can save your settings and reload them the next time you start a node.
+
+  SAVING PARAMS TO FILE
+You can “dump” all of a node’s current parameter values into a file to save them for later by using the command:
+
+ros2 param dump <node_name>
+
+To save your current configuration of /turtlesim’s parameters, enter the command:
+
+ros2 param dump /turtlesim
+
+Your terminal will return the message:
+
+Saving to:  ./turtlesim.yaml
+
+LOADING PARAMS FROM FILE
+ You can load parameters from a file to a currently running node using the command:
+
+ros2 param load <node_name> <parameter_file>
+
+To load the ./turtlesim.yaml file generated with ros2 param dump into /turtlesim node’s parameters, enter the command:
+
+ros2 param load /turtlesim ./turtlesim.yaml
+
 
