@@ -189,4 +189,145 @@ Stop your running turtlesim node so you can try reloading it with your saved par
 
 ros2 run turtlesim turtlesim_node --ros-args --params-file ./turtlesim.yaml
 
+# ACTIONS
+  
+  Actions are one of the communication types in ROS 2 and are intended for long running tasks. They consist of three parts: a goal, feedback, and a result.
+  
+  An “action client” node sends a goal to an “action server” node that acknowledges the goal and returns a stream of feedback and a result.
+  
+  we can see if node has something connected to a action servre/client we can use ros2 node info 
+  
+  ex.:
+  
+  ros2 node info /turtlesim
 
+Which will return a list of /turtlesim’s subscribers, publishers, services, action servers and action clients:
+
+/turtlesim
+  
+  Subscribers:
+  
+    /parameter_events: rcl_interfaces/msg/ParameterEvent
+  
+    /turtle1/cmd_vel: geometry_msgs/msg/Twist
+  
+  Publishers:
+  
+    /parameter_events: rcl_interfaces/msg/ParameterEvent
+  
+    /rosout: rcl_interfaces/msg/Log
+  
+    /turtle1/color_sensor: turtlesim/msg/Color
+  
+    /turtle1/pose: turtlesim/msg/Pose
+  
+  Service Servers:
+  
+    /clear: std_srvs/srv/Empty
+  
+    /kill: turtlesim/srv/Kill
+  
+    /reset: std_srvs/srv/Empty
+  
+    /spawn: turtlesim/srv/Spawn
+  
+    /turtle1/set_pen: turtlesim/srv/SetPen
+  
+    /turtle1/teleport_absolute: turtlesim/srv/TeleportAbsolute
+  
+    /turtle1/teleport_relative: turtlesim/srv/TeleportRelative
+  
+    /turtlesim/describe_parameters: rcl_interfaces/srv/DescribeParameters
+  
+    /turtlesim/get_parameter_types: rcl_interfaces/srv/GetParameterTypes
+  
+    /turtlesim/get_parameters: rcl_interfaces/srv/GetParameters
+  
+    /turtlesim/list_parameters: rcl_interfaces/srv/ListParameters
+  
+    /turtlesim/set_parameters: rcl_interfaces/srv/SetParameters
+  
+    /turtlesim/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically
+  
+  Service Clients:
+
+  Action Servers:
+  
+    /turtle1/rotate_absolute: turtlesim/action/RotateAbsolute
+  
+  Action Clients:
+
+Notice that the /turtle1/rotate_absolute action for /turtlesim is under Action Servers. This means /turtlesim responds to and provides feedback for the /turtle1/rotate_absolute action.
+  
+  To identify all the actions in the ROS graph, run the command:
+
+ros2 action list
+
+  to seee all actions with thier types we are using:
+  
+  - ros2 action list -t
+  
+  to see an info about a action we can use:
+  
+  ros2 action info <action>
+  
+  ex.:
+  ros2 action info /turtle1/rotate_absolute
+
+Which will return
+
+Action: /turtle1/rotate_absolute
+  
+Action clients: 1
+  
+    /teleop_turtle
+  
+Action servers: 1
+  
+    /turtlesim
+  
+  
+  to see a contecst about type we are using 
+  
+  ros2 interface show <type(message type of action)>
+  
+  ex.:
+  
+  ros2 interface show turtlesim/action/RotateAbsolute
+
+Which will return:
+
+The desired heading in radians
+  
+float32 theta
+  
+"---"
+
+The angular displacement in radians to the starting position
+  
+float32 delta
+"---"
+
+The remaining rotation in radians
+float32 remaining
+  
+ The first section of this message, above the ---, is the structure (data type and name) of the goal request. The next section is the structure of the result. The last section is the structure of the feedback.
+
+ MANUALLY SENDING AN ACTION
+
+Now let’s send an action goal from the command line with the following syntax:
+
+ros2 action send_goal <action_name> <action_type> <values>
+
+<values> need to be in YAML format.
+  
+  ex.: 
+  
+  ros2 action send_goal /turtle1/rotate_absolute turtlesim/action/RotateAbsolute "{theta: 1.57}"
+  
+  
+  if you want a feedback you need to add --feedback at the back:
+  
+  ex.:
+  
+  ros2 action send_goal /turtle1/rotate_absolute turtlesim/action/RotateAbsolute "{theta: -1.57}" --feedback
