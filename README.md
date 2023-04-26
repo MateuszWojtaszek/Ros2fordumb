@@ -366,3 +366,37 @@ There is no exact standard for what each level indicates, but it’s safe to ass
     Info messages indicate event and status updates that serve as a visual verification that the system is running as expected.
 
     Debug messages detail the entire step-by-step process of the system execution.
+  
+# ROSBAG
+  
+ros2 bag is a command line tool for recording data published on topics in your system. It accumulates the data passed on any number of topics and saves it in a database. You can then replay the data to reproduce the results of your tests and experiments. Recording topics is also a great way to share your work and allow others to recreate it. 
+  
+  To record the data published to a topic use the command syntax:
+
+ros2 bag record <topic_name>
+
+Before running this command on your chosen topic, open a new terminal and move into the bag_files directory you created earlier, because the rosbag file will save in the directory where you run it.
+  
+  You can also record multiple topics, as well as change the name of the file ros2 bag saves to.
+
+Run the following command:
+
+ros2 bag record -o subset /turtle1/cmd_vel /turtle1/pose
+
+The -o option allows you to choose a unique name for your bag file. The following string, in this case subset, is the file name.
+  
+  You can see details about your recording by running:
+
+ros2 bag info <bag_file_name>
+
+  rosbag play
+  
+  Enter the command:
+
+ros2 bag play subset
+  
+  You can record data passed on topics in your ROS 2 system using the ros2 bag command. Whether you’re sharing your work with others or introspecting on your own experiments, it’s a great tool to know about.
+
+
+  
+  
