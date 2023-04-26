@@ -66,3 +66,70 @@ It’s important to note that this argument needs to be input in YAML syntax. In
 ros2 topic hz /turtle1/pose
 
 It will return data on the rate at which the /turtlesim node is publishing data to the pose topic.
+
+# Chapter 2
+
+Ros services:
+to list all services with thier messages type:
+
+-ros2 service list -t
+
+if you want to check the type of specyfic service:
+
+-ros2 service type <service_name>
+
+If you want to find all the services of a specific type, you can use the command:
+
+ros2 service find <type_name>
+
+
+For example, you can find all the Empty typed services like this:
+
+ros2 service find std_srvs/srv/Empty
+
+
+if you want to know the stractur of message type:
+
+ros2 interface show <message_type>
+
+ex for empty
+
+ros2 interface show std_srvs/srv/Empty
+
+----------
+
+
+above ----- are request and below are responds
+
+
+ex
+
+
+o see the arguments in a /spawn call-and-request, run the command:
+
+ros2 interface show turtlesim/srv/Spawn
+
+Which will return:
+
+float32 x
+
+float32 y
+
+float32 theta
+
+string name # Optional.  A unique name will be created and returned if this is empty
+---
+string name
+
+
+The information above the --- line tells us the arguments needed to call /spawn. x, y and theta determine the location of the spawned turtle, and name is clearly optional.
+
+
+you can call a service using:
+
+ros2 service call <service_name> <service_type> <arguments>
+
+The <arguments> part is optional. For example, you know that Empty typed services don’t have any arguments:
+
+ros2 service call /clear std_srvs/srv/Empty
+
