@@ -398,5 +398,42 @@ ros2 bag play subset
   You can record data passed on topics in your ROS 2 system using the ros2 bag command. Whether you’re sharing your work with others or introspecting on your own experiments, it’s a great tool to know about.
 
 
+# Creating a workspace 
+
+workspace names are assumed to be ros2_ws and its sorce as src
+
+after creating a worakspace and clonig a repo or something you need to build its dependencies
+
+rosdep install -i --from-path src --rosdistro galactic(version) -y
+
+and then build using colcon build
+
+Other useful arguments for colcon build:
+
+    --packages-up-to builds the package you want, plus all its dependencies, but not the whole workspace (saves time)
+
+    --symlink-install saves you from having to rebuild every time you tweak python scripts
+
+    --event-handlers console_direct+ shows console output while building (can otherwise be found in the log directory)
+
+
+Once the build is finished, enter ls in the workspace root (~/ros2_ws) and you will see that colcon has created new directories:
+
+build  install  log  src
+
+The install directory is where your workspace’s setup files are, which you can use to source your overlay.
+6 Source the overlay
+
+Before sourcing the overlay, it is very important that you open a new terminal, separate from the one where you built the workspace. Sourcing an overlay in the same terminal where you built, or likewise building where an overlay is sourced, may create complex issues.
+
+ source install/setup.bash
+ 
+ Sourcing the local_setup of the overlay will only add the packages available in the overlay to your environment. setup sources the overlay as well as the underlay it was created in, allowing you to utilize both workspaces.
+
+So, sourcing your main ROS 2 installation’s setup and then the ros2_ws overlay’s local_setup, like you just did, is the same as just sourcing ros2_ws’s setup, because that includes the environment of the underlay it was created in.
+
+
+
+
   
   
