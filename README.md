@@ -431,6 +431,46 @@ Before sourcing the overlay, it is very important that you open a new terminal, 
  Sourcing the local_setup of the overlay will only add the packages available in the overlay to your environment. setup sources the overlay as well as the underlay it was created in, allowing you to utilize both workspaces.
 
 So, sourcing your main ROS 2 installation’s setup and then the ros2_ws overlay’s local_setup, like you just did, is the same as just sourcing ros2_ws’s setup, because that includes the environment of the underlay it was created in.
+  
+  
+# PACKAGES
+  
+  A package can be considered a container for your ROS 2 code. If you want to be able to install your code or share it with others, then you’ll need it organized in a package. With packages, you can release your ROS 2 work and allow others to build and use it easily.
+
+  
+What's in the package? (python)
+  
+  
+
+    package.xml file containing meta information about the package
+
+    setup.py containing instructions for how to install the package
+
+    setup.cfg is required when a package has executables, so ros2 run can find them
+
+    /<package_name> - a directory with the same name as your package, used by ROS 2 tools to find your package, contains __init__.py
+
+The simplest possible package may have a file structure that looks like:
+
+my_package/
+      setup.py
+      package.xml
+      resource/my_package
+
+How to creat a package?
+  ros2 pkg create --build-type ament_python <package_name>
+  
+  you can use the optional argument --node-name which creates a simple Hello World type executable in the package.
+  
+  after thin you must just build and source.
+  
+my_node.py is inside the my_package directory. This is where all your custom Python nodes will go in the future.
+  
+  6 Customize package.xml
+
+You may have noticed in the return message after creating your package that the fields description and license contain TODO notes. That’s because the package description and license declaration are not automatically set, but are required if you ever want to release your package. The maintainer field may also need to be filled in.
+  
+  The setup.py file contains the same description, maintainer and license fields as package.xml, so you need to set those as well. They need to match exactly in both files. The version and name (package_name) also need to match exactly, and should be automatically populated in both files.
 
 
 
